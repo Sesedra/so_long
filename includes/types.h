@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:18:49 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/10 16:46:46 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/10 16:53:02 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,8 @@ typedef	struct	s_data
 	void	*mlx_win;
 	t_map	map;
 }			t_data;
+
+
+
 
 #endif
