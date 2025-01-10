@@ -6,19 +6,38 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:23:21 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/10 12:58:48 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/10 15:06:05 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minilibx-linux/mlx.h"
-#include "minilibx-linux/mlx_int.h"
+#include "so_long.h"
+#include "printf.h"
 
-int main(void)
+int	check_map_format(char *str)
 {
-    void	*mlx_ptr;
-    void	*mlx_win;
+	int	len;
 
-	mlx_ptr = mlx_init();
-	mlx_win = mlx_new_window(mlx_ptr, 500, 500, "Hello so_long 42");
-	mlx_loop(mlx_ptr);
+	len = ft_strlen(str) - 1;
+	if (str[len - 3] == '.' && str[len - 2] == 'b' && str[len - 1] == 'e' && str[len] == 'r')
+		return (0);
+	return (1);
+}
+
+int	main(int argc, char *argv[])
+{
+	if (argc == 1)
+	{
+		ft_printf("Map introuvable \n");
+		return (0);
+	}
+	else if (argc > 2)
+	{
+		ft_printf("Argument invalide \n");
+		return (0);
+	}
+	else if (check_map_format(argv[1]))
+	{
+		ft_printf("Map invalide \n");
+		return (0);
+	}
 }
