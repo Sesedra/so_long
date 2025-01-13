@@ -1,4 +1,4 @@
-SRCS 	= main.c utils.c
+SRCS 	= src/main.c src/utils.c
 
 NAME	= so_long
 
@@ -8,15 +8,18 @@ MLX_FLAGS	= -Lminilibx-linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm
 
 all:	$(NAME)
 $(NAME):
-		@cd printf && make	
-		$(CC) $(SRCS) $(FLAGS) $(MLX_FLAGS) printf/libftprintf.a -o $(NAME)
+		@cd printf && make
+		@cd get_next_line && make
+		$(CC) $(SRCS) $(FLAGS) $(MLX_FLAGS) printf/libftprintf.a get_next_line/get_next_line.a -o $(NAME)
 
 		
 clean:
 		@cd printf && make clean
+		@cd get_next_line && make clean
 
 fclean:
 		@cd printf && make fclean
+		@cd get_next_line && make fclean
 		rm -f $(NAME)
 		clear
 

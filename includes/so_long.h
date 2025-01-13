@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:29:52 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/10 16:50:57 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/13 10:23:44 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ int	ft_strlen(const char *str);
 int	print_error(char *str);
 size_t  line_count(char *str);
 char	*get_next_line(int fd);
+int parse_map(t_map *map);
+void    init(t_data *data, char *map_path);
 
 #endif

@@ -6,21 +6,20 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:23:21 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/10 16:31:50 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/13 10:54:31 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 #include "printf.h"
 
-int	check_map_format(char *str)
+int	on_destroy(t_data *data)
 {
-	int	len;
-
-	len = ft_strlen(str) - 1;
-	if (str[len - 3] == '.' && str[len - 2] == 'b' && str[len - 1] == 'e' && str[len] == 'r')
-		return (0);
-	return (1);
+	mlx_destroy_window(data->mlx_ptr, data->mlx_win);
+	mlx_destroy_display(data->mlx_ptr);
+	free(data->mlx_ptr);
+	exit(0);
+	return (0);
 }
 
 int	main(int argc, char *argv[])
@@ -33,8 +32,12 @@ int	main(int argc, char *argv[])
 		print_error("Argument invalide");
 	else if (check_map_format(argv[1]))
 		print_error("Map invalide");
-
+	init(&data, argv[1]);
+	parse_map(&data.map);
 	data.mlx_ptr = mlx_init();
-	data.mlx_win = mlx_new_window(data.mlx_ptr, 500, 500, "So long");
+	data.mlx_win = mlx_new_window(data.mlx_ptr, data.map.map_width * SIZE, data.map.map_height * SIZE, "So long");
+	data.mlx_img = mlx_new_image(data.mlx_ptr, data.map.map_width * SIZE, data.map.map_height * SIZE);
+	data.mlx_addr = mlx_get_data_addr(data.mlx_img, &data.bppx, &data.size_line, &data.endian);
+	mlx_hook(data.mlx_win, DestroyNotify, StructureNotifyMask, &on_destroy, &data);
 	mlx_loop(data.mlx_ptr);
 }
