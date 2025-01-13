@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:23:21 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/13 14:01:58 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:13:22 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@ int	main(int argc, char *argv[])
 	init(&data, argv[1]);
 	parse_map(&data.map);
 	data.mlx_ptr = mlx_init();
-	data.mlx_win = mlx_new_window(data.mlx_ptr, data.map.map_width * SIZE, data.map.map_height * SIZE, "So long");
-	data.mlx_img = mlx_new_image(data.mlx_ptr, data.map.map_width * SIZE, data.map.map_height * SIZE);
-	data.mlx_addr = mlx_get_data_addr(data.mlx_img, &data.bppx, &data.size_line, &data.endian);
-	mlx_hook(data.mlx_win, DestroyNotify, StructureNotifyMask, &on_destroy, &data);
+	data.mlx_win = mlx_new_window(data.mlx_ptr, data.map.map_width * SIZE, \
+	data.map.map_height * SIZE, "So long");
+	data.mlx_img = mlx_new_image(data.mlx_ptr, data.map.map_width * SIZE, \
+	data.map.map_height * SIZE);
+	data.mlx_addr = mlx_get_data_addr(data.mlx_img, &data.bppx, \
+	&data.size_line, &data.endian);
+	mlx_hook(data.mlx_win, DestroyNotify, StructureNotifyMask, \
+	&on_destroy, &data);
 	mlx_loop(data.mlx_ptr);
 }
