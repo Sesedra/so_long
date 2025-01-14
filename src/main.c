@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:23:21 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 12:51:15 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:12:36 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,10 @@ int	main(int argc, char *argv[])
 	init_map_sprites(&data);
 	draw_bg(&data);
 	draw_map(&data);
+	draw_player(&data);
 	mlx_hook(data.mlx_win, DestroyNotify, StructureNotifyMask, \
 	&on_destroy, &data);
 	mlx_loop(data.mlx_ptr);
 	free(data.map.map);
+
 }

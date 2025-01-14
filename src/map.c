@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:46:35 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 13:37:53 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:12:15 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ void	init_map_sprites(t_data *data)
 	data->wall_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/w_sp.xpm", &data->wall_sprite.sprite_w, &data->wall_sprite.sprite_h);
 	data->start_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/s_sp.xpm", &data->start_sprite.sprite_w, &data->start_sprite.sprite_h);
 	data->floor_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/f_sp.xpm", &data->floor_sprite.sprite_w, &data->floor_sprite.sprite_h);
+	data->player.sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/p_sp.xpm", &data->player.sprite.sprite_w, &data->player.sprite.sprite_h);
 	// data->exit_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/e_sp.xpm", &data->map., &data->map.map_height);
 	// data->wall_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/w_sp.xpm", &data->map.map_width, &data->map.map_height);
 	// data->start_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/s_sp.xpm", &data->map.map_width, &data->map.map_height);
@@ -236,4 +237,9 @@ void	draw_map(t_data *data)
 		start.pos_x = 0;
 		start.pos_y += SIZE;
 	}
+}
+
+void	draw_player(t_data *data)
+{
+	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->player.sprite.img, data->player.position.pos_x * SIZE, data->player.position.pos_y * SIZE);
 }

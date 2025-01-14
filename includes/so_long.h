@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:29:52 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 10:58:21 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:12:47 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void check_map_elt(t_map *map);
 void	init_map_sprites(t_data *data);
 void	draw_bg(t_data *data);
 void	draw_map(t_data *data);
+void	draw_player(t_data *data);
 
 #endif
