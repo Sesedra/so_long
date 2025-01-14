@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:29:52 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 08:53:28 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/14 10:58:21 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,15 @@
 int	check_map_format(char *str);
 int	ft_strlen(const char *str);
 int	print_error(char *str);
-size_t  line_count(char *str);
+int  line_count(char *str);
 char	*get_next_line(int fd);
 int parse_map(t_map *map);
 void    init(t_data *data, char *map_path);
 void	load_map(t_map *map);
 void	check_walls(t_map *map);
 void check_map_elt(t_map *map);
+void	init_map_sprites(t_data *data);
+void	draw_bg(t_data *data);
+void	draw_map(t_data *data);
 
 #endif

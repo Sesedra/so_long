@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:46:35 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 09:05:42 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/14 11:08:31 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int	parse_map(t_map *map)
 
 void	check_walls(t_map *map)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	i =  0;
 	ft_printf("Miditra verification voalohany \n");
@@ -90,8 +90,8 @@ void	load_map(t_map *map)
 
 void check_map_elt(t_map *map)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	
 	j = 0;
@@ -119,4 +119,66 @@ void check_map_elt(t_map *map)
 		print_error("Nomnbre de position de depart incorrect");
 	if (map->collectibles == 0)
 		print_error("Aucun collectible detecte");
+}
+
+void	init_map_sprites(t_data *data)
+{
+	data->collectible_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/c_sp.xpm", &data->map.map_width, &data->map.map_height);
+	data->exit_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/e_sp.xpm", &data->map.map_width, &data->map.map_height);
+	data->wall_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/w_sp.xpm", &data->map.map_width, &data->map.map_height);
+	data->start_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/s_sp.xpm", &data->map.map_width, &data->map.map_height);
+	data->floor_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/f_sp.xpm", &data->map.map_width, &data->map.map_height);
+}
+
+void	draw_bg(t_data *data)
+{
+	t_position	start;
+	t_position	exit;
+
+	start.pos_x = 0;
+	start.pos_y = 0;
+	exit.pos_x = data->map.map_width * SIZE;
+	exit.pos_y = data->map.map_height * SIZE;
+	while (start.pos_y < exit.pos_y)
+	{
+		while (start.pos_x < exit.pos_x)
+		{
+			mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->floor_sprite.img, start.pos_x, start.pos_y);
+			start.pos_x += SIZE;
+		}
+		start.pos_x = 0;
+		start.pos_y += SIZE;
+	}
+}
+
+void	draw_map(t_data *data)
+{
+	t_position	start;
+
+	start.pos_x = 0;
+	start.pos_y = 0;
+	
+	if (!data->map.map || data->map.map_height <= 0 || data->map.map_width <= 0)
+	{
+    ft_printf("Error: Invalid map dimensions.\n");
+    exit(EXIT_FAILURE);
+	}
+
+	while(start.pos_y / SIZE < data->map.map_height)
+	{
+		while (start.pos_x / SIZE < data->map.map_width)
+		{
+			if (data->map.map[start.pos_y / SIZE][start.pos_x / SIZE] == '1')
+				mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->wall_sprite.img, start.pos_x, start.pos_y);
+			else if (data->map.map[start.pos_y / SIZE][start.pos_x / SIZE] == 'C')
+				mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->collectible_sprite.img, start.pos_x, start.pos_y);
+			else if (data->map.map[start.pos_y / SIZE][start.pos_x / SIZE] == 'P')
+				mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->start_sprite.img, start.pos_x, start.pos_y);
+			else if (data->map.map[start.pos_y / SIZE][start.pos_x / SIZE] == 'E')
+				mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->exit_sprite.img, start.pos_x, start.pos_y);
+			start.pos_x += SIZE;
+		}
+		start.pos_x = 0;
+		start.pos_y += SIZE;
+	}
 }

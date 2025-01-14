@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:23:21 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 08:53:39 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/14 11:02:57 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ int	main(int argc, char *argv[])
 	data.map.map_height * SIZE);
 	data.mlx_addr = mlx_get_data_addr(data.mlx_img, &data.bppx, \
 	&data.size_line, &data.endian);
+	init_map_sprites(&data);
+	draw_bg(&data);
+	draw_map(&data);
 	mlx_hook(data.mlx_win, DestroyNotify, StructureNotifyMask, \
 	&on_destroy, &data);
 	mlx_loop(data.mlx_ptr);
+	free(data.map.map);
 }

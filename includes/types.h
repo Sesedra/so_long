@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:18:49 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 08:49:58 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/14 10:59:10 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 typedef struct s_map
 {
 	char		*path;
-	size_t		map_height;
-	size_t		map_width;
+	int		map_height;
+	int		map_width;
 	int			fd;
 	char		**map;
 	int		collectibles;
@@ -26,12 +26,24 @@ typedef struct s_map
 	int		moves;
 } 			t_map;
 
+typedef	struct	s_sprite
+{
+	int	sprite_w;
+	int	sprite_h;
+	void	*img;
+}			t_sprite;
+
 typedef	struct	s_data
 {
     void	*mlx_ptr;
 	void	*mlx_win;
 	void	*mlx_img;
 	void	*mlx_addr;
+	t_sprite	wall_sprite;
+	t_sprite	exit_sprite;
+	t_sprite	start_sprite;
+	t_sprite	collectible_sprite;
+	t_sprite	floor_sprite;
 	int		bppx;
 	int		size_line;
 	int		endian;
@@ -41,8 +53,8 @@ typedef	struct	s_data
 
 typedef struct	s_position
 {
-	size_t	pos_x;
-	size_t	pos_y;
+	int	pos_x;
+	int	pos_y;
 }		t_position;
 
 typedef	struct s_tile
