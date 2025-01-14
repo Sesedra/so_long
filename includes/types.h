@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:18:49 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/13 14:23:11 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/14 08:49:58 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,11 @@ typedef struct s_map
 	size_t		map_height;
 	size_t		map_width;
 	int			fd;
-	char		**grid;
-	char		*tiles;
+	char		**map;
+	int		collectibles;
+	int		exit;
+	int		start;
+	int		moves;
 } 			t_map;
 
 typedef	struct	s_data
@@ -33,9 +36,6 @@ typedef	struct	s_data
 	int		size_line;
 	int		endian;
 	short int	is_winning;
-	int		exit;
-	int		moves;
-	int		start;
 	t_map	map;
 }			t_data;
 

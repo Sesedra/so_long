@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:23:21 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/13 15:13:22 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/14 08:53:39 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ int	main(int argc, char *argv[])
 		print_error("Map invalide");
 	init(&data, argv[1]);
 	parse_map(&data.map);
+	load_map(&data.map);
+	check_walls(&data.map);
+	check_map_elt(&data.map);
 	data.mlx_ptr = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx_ptr, data.map.map_width * SIZE, \
 	data.map.map_height * SIZE, "So long");

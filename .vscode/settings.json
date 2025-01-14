@@ -2,6 +2,7 @@
     "files.associations": {
         "so_long.h": "c",
         "mlx.h": "c",
-        "ft_printf.h": "c"
+        "ft_printf.h": "c",
+        "mlx_int.h": "c"
     }
 }
