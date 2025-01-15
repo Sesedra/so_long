@@ -12,33 +12,6 @@
 
 #include "so_long.h"
 
-// int	parse_map(t_map *map)
-// {
-// 	int		fd;
-// 	char	*line;
-
-// 	fd = open(map->path, O_RDONLY);
-// 	if (fd < 0)
-// 		print_error("Map introuvable");
-// 	map->map_height = 0;
-// 	map->map_width = 0;
-// 	line = get_next_line(fd);
-// 	map->map_width = line_count(line);
-// 	while (line)
-// 	{
-// 		map->map_height++;
-// 		if (line_count(line) != map->map_width)
-// 			print_error("Le map n'est pas rectangulaire");
-// 		line = get_next_line(fd);
-// 	}
-// 	close(fd);
-// 	if (map->map_height == 0)
-// 		print_error("Map vide");
-// 	ft_printf("VAleur de map_width; %d", map->map_width);
-// 	ft_printf("VAleur de map_height; %d", map->map_height);
-// 	return (1);
-// }
-
 int	parse_map(t_map *map)
 {
 	int		fd;
@@ -176,10 +149,6 @@ void	init_map_sprites(t_data *data)
 	data->start_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/s_sp.xpm", &data->start_sprite.sprite_w, &data->start_sprite.sprite_h);
 	data->floor_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/f_sp.xpm", &data->floor_sprite.sprite_w, &data->floor_sprite.sprite_h);
 	data->player.sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/p_sp.xpm", &data->player.sprite.sprite_w, &data->player.sprite.sprite_h);
-	// data->exit_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/e_sp.xpm", &data->map., &data->map.map_height);
-	// data->wall_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/w_sp.xpm", &data->map.map_width, &data->map.map_height);
-	// data->start_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/s_sp.xpm", &data->map.map_width, &data->map.map_height);
-	// data->floor_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/f_sp.xpm", &data->map.map_width, &data->map.map_height);
 	ft_printf("Valeur de map_width dans init sprite APRES: %d\n", data->map.map_width);
 	ft_printf("Valeur de map_height: %d\n", data->map.map_height);
 }	
@@ -242,4 +211,78 @@ void	draw_map(t_data *data)
 void	draw_player(t_data *data)
 {
 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->player.sprite.img, data->player.position.pos_x * SIZE, data->player.position.pos_y * SIZE);
+}
+
+void check_player_position(t_data *data)
+{
+	int	i;
+	int	j;
+	
+	j = 0;
+	while (j < data->map.map_height)
+	{
+		i = 0;
+		while (i < data->map.map_width)
+		{
+			if (data->map.map[j][i] == 'P')
+			{
+				data->player.position.pos_x = i;
+				data->player.position.pos_y = j;
+				return;
+			}	
+			i++;
+		}
+		j++;
+	}
+}
+
+void	check_victory(t_data *data)
+{
+	char	current_position = data->map.map[data->player.position.pos_x][data->player.position.pos_y];
+
+	if (current_position)
+	{
+		if (data->map.collectibles = 0)
+		{
+			ft_printf("Vous avez gagné \n");
+			exit(1); 
+		}
+	}
+	else
+	{
+		ft_printf("Collecter toutes les collectibles pour continuer \n");
+	}
+}
+
+void	move_player(t_data *data, int move_x, int move_y)
+{
+	int	new_x;
+	int new_y;
+
+	new_x = data->player.position.pos_x + move_x;
+	new_y = data->player.position.pos_y + move_y;
+
+	if (data->map.map[new_y][new_x] == '1')
+		return;
+	data->map.map[data->player.position.pos_y][data->player.position.pos_x] = '0';
+	data->player.position.pos_x = new_x;
+	data->player.position.pos_y = new_y;
+	data->map.map[new_y][new_x];
+
+	ft_printf("Jour deplacé à (%d, %d) \n", new_x, new_y);
+}
+
+int	handle_key(int keycode, t_data *data)
+{
+	if (keycode == KEY_W)
+		move_player(data, 0, -1);
+	else if (keycode == KEY_S)
+		move_player(data, 0, 1);
+	else if (keycode == KEY_A)
+		move_player(data, -1, 0);
+	else if (keycode == KEY_D)
+		move_player(data, 1, 0);
+	else if (keycode == KEY_ESC)
+		on_destroy(data);
+	return (0); 
 }

@@ -21,8 +21,14 @@
 #include "../printf/ft_printf.h"
 #include "types.h"
 #define WIN_NAME "so_long"
+#define KEY_W 13
+#define KEY_A 0
+#define KEY_S 1
+#define KEY_D 2
+#define KEY_ESC 53
 
 int	check_map_format(char *str);
+int	on_destroy(t_data *data);
 int	ft_strlen(const char *str);
 int	print_error(char *str);
 int  line_count(char *str);
@@ -36,5 +42,7 @@ void	init_map_sprites(t_data *data);
 void	draw_bg(t_data *data);
 void	draw_map(t_data *data);
 void	draw_player(t_data *data);
+void check_player_position(t_data *data);
+void	move_player(t_data *data, int move_x, int move_y);
 
 #endif

@@ -24,3 +24,7 @@ fclean:
 		clear
 
 re:	fclean all
+
+download : 
+			@last night with the devil
+			@nofseratu

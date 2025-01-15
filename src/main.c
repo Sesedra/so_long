@@ -37,6 +37,7 @@ int	main(int argc, char *argv[])
 	load_map(&data.map);
 	check_walls(&data.map);
 	check_map_elt(&data.map);
+	check_player_position(&data);
 	data.mlx_ptr = mlx_init();
 	data.mlx_win = mlx_new_window(data.mlx_ptr, data.map.map_width * SIZE, \
 	data.map.map_height * SIZE, "So long");
