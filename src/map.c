@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:46:35 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 14:12:15 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:38:34 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,11 @@ void check_map_elt(t_map *map)
 			else if (map->map[j][i] == 'E')
 				map->exit++;
 			else if (map->map[j][i] == 'P')
-				map->start++;
+			{
+				map->start_count++;
+				map->start.pos_x = i;
+				map->start.pos_y = j;
+			}
 			else if (map->map[j][i] != '0' && map->map[j][i] != '1')
 				print_error("Unknown character found");
 			i++;
@@ -133,7 +137,7 @@ void check_map_elt(t_map *map)
 
 	if (map->exit != 1)
 		print_error("Nombre de sortie incorrect");
-	if (map->start != 1)
+	if (map->start_count != 1)
 		print_error("Nomnbre de position de depart incorrect");
 	if (map->collectibles == 0)
 		print_error("Aucun collectible detecte");
@@ -149,6 +153,8 @@ void	init_map_sprites(t_data *data)
 	data->start_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/s_sp.xpm", &data->start_sprite.sprite_w, &data->start_sprite.sprite_h);
 	data->floor_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/f_sp.xpm", &data->floor_sprite.sprite_w, &data->floor_sprite.sprite_h);
 	data->player.sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/p_sp.xpm", &data->player.sprite.sprite_w, &data->player.sprite.sprite_h);
+	data->exitplayer_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/pe_sp.xpm", &data->exitplayer_sprite.sprite_w, &data->exitplayer_sprite.sprite_h);
+	data->startplayer_sprite.img = mlx_xpm_file_to_image(data->mlx_ptr, "sprites/se_sp.xpm", &data->startplayer_sprite.sprite_w, &data->startplayer_sprite.sprite_h);
 	ft_printf("Valeur de map_width dans init sprite APRES: %d\n", data->map.map_width);
 	ft_printf("Valeur de map_height: %d\n", data->map.map_height);
 }	
@@ -183,8 +189,8 @@ void	draw_map(t_data *data)
 	start.pos_y = 0;
 	exit.pos_x = (data->map.map_width) * SIZE;
 	exit.pos_y = (data->map.map_height) * SIZE;
-	ft_printf("x = %d\n", (data->map.map_width));
-	ft_printf("y = %d\n\n", (data->map.map_height));
+	// ft_printf("x = %d\n", (data->map.map_width));
+	// ft_printf("y = %d\n\n", (data->map.map_height));
 
 	while (start.pos_y < exit.pos_y)
 	{
@@ -198,6 +204,8 @@ void	draw_map(t_data *data)
 				mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->start_sprite.img, start.pos_x, start.pos_y);
 			else if (data->map.map[start.pos_y / SIZE][start.pos_x / SIZE] == 'E')
 				mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->exit_sprite.img, start.pos_x, start.pos_y);
+			else if (data->map.map[start.pos_y / SIZE][start.pos_x / SIZE] == '0')
+				mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->floor_sprite.img, start.pos_x, start.pos_y);
 			// if (data->map.map[start.pos_y / SIZE][start.pos_x / SIZE] == 'C')
 			// 	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win, data->collectible_sprite.img, start.pos_x, start.pos_y);
 
@@ -207,6 +215,8 @@ void	draw_map(t_data *data)
 		start.pos_y += SIZE;
 	}
 }
+
+
 
 void	draw_player(t_data *data)
 {
@@ -242,7 +252,7 @@ void	check_victory(t_data *data)
 
 	if (current_position)
 	{
-		if (data->map.collectibles = 0)
+		if (data->map.collectibles == 0)
 		{
 			ft_printf("Vous avez gagné \n");
 			exit(1); 
@@ -264,25 +274,74 @@ void	move_player(t_data *data, int move_x, int move_y)
 
 	if (data->map.map[new_y][new_x] == '1')
 		return;
-	data->map.map[data->player.position.pos_y][data->player.position.pos_x] = '0';
+	else data->move++;
+	if (data->map.map[new_y][new_x] == 'C')
+		data->map.collectibles--;
+	if (data->map.map[new_y][new_x] == 'E' && data->map.collectibles == 0)
+	{
+		ft_printf("You won \n");
+		exit(1);
+	}
+	else
+	{
+		ft_printf("Collect them all \n");
+	}
+	if (data->player.position.pos_x == data->map.start.pos_x && data->player.position.pos_y == data->map.start.pos_y)
+	{
+		data->map.map[data->player.position.pos_y][data->player.position.pos_x] = 'S';
+		mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
+								data->start_sprite.img,
+								data->player.position.pos_x * SIZE,
+								data->player.position.pos_y * SIZE);
+	}
+	else if (data->map.map[data->player.position.pos_y][data->player.position.pos_x] == 'E')
+	{
+		mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
+								data->exit_sprite.img,
+								data->player.position.pos_x * SIZE,
+								data->player.position.pos_y * SIZE);
+	}
+	else
+	{
+		data->map.map[data->player.position.pos_y][data->player.position.pos_x] = '0';
+		mlx_put_image_to_window(data->mlx_ptr,data->mlx_win,
+								data->floor_sprite.img,
+								data->player.position.pos_x * SIZE,
+								data->player.position.pos_y * SIZE );
+	}
 	data->player.position.pos_x = new_x;
 	data->player.position.pos_y = new_y;
-	data->map.map[new_y][new_x];
+	if (data->map.map[new_y][new_x] == 'E' && data->map.collectibles > 0)
+	{
+		mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
+								data->exitplayer_sprite.img,
+								new_x * SIZE,
+								new_y * SIZE
+								);
+	}
+	else
+	{
+	data->map.map[new_y][new_x] = 'P';
+	mlx_put_image_to_window(data->mlx_ptr, data->mlx_win,
+							data->player.sprite.img,
+							new_x * SIZE,
+							new_y * SIZE);
+	}
 
-	ft_printf("Jour deplacé à (%d, %d) \n", new_x, new_y);
+	ft_printf("Move: %d \n", data->move);
 }
 
 int	handle_key(int keycode, t_data *data)
 {
-	if (keycode == KEY_W)
-		move_player(data, 0, -1);
-	else if (keycode == KEY_S)
+	if (keycode == XK_S || keycode == XK_s)
 		move_player(data, 0, 1);
-	else if (keycode == KEY_A)
+	else if (keycode == XK_W || keycode == XK_w)
+		move_player(data, 0, -1);
+	else if (keycode == XK_A || keycode == XK_a)
 		move_player(data, -1, 0);
-	else if (keycode == KEY_D)
+	else if (keycode == XK_D || keycode == XK_d)
 		move_player(data, 1, 0);
-	else if (keycode == KEY_ESC)
+	else if (keycode == XK_Escape)
 		on_destroy(data);
 	return (0); 
 }

@@ -6,12 +6,18 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:18:49 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 14:04:05 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/16 12:35:37 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TYPES_H
 # define TYPES_H
+
+typedef struct	s_position
+{
+	int	pos_x;
+	int	pos_y;
+}		t_position;
 
 typedef struct s_map
 {
@@ -22,7 +28,8 @@ typedef struct s_map
 	char		**map;
 	int		collectibles;
 	int		exit;
-	int		start;
+	int		start_count;
+	t_position	start;
 	int		moves;
 } 			t_map;
 
@@ -33,11 +40,6 @@ typedef	struct	s_sprite
 	void	*img;
 }			t_sprite;
 
-typedef struct	s_position
-{
-	int	pos_x;
-	int	pos_y;
-}		t_position;
 
 typedef struct s_player
 {
@@ -57,10 +59,13 @@ typedef	struct	s_data
 	t_sprite	start_sprite;
 	t_sprite	collectible_sprite;
 	t_sprite	floor_sprite;
+	t_sprite	exitplayer_sprite;
+	t_sprite	startplayer_sprite;
 	t_player	player;
 	int		bppx;
 	int		size_line;
 	int		endian;
+	int		move;
 	short int	is_winning;
 	t_map	map;
 }			t_data;

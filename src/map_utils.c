@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:15:27 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 12:43:39 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/16 10:39:51 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,11 @@ void	init(t_data *data, char *map_path)
 	data->map.path = map_path;
 	data->is_winning = 0;
 	data->map.collectibles = 0;
-	data->map.start = 0;
+	data->map.start_count = 0;
 	data->map.exit = 0;
 	data->map.map_height = 0;
 	data->map.map_width = 0;
+	data->move = 0;
 }
 
 int	line_count(char *str)

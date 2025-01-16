@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:29:52 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/14 14:12:47 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/16 09:08:45 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ void	draw_map(t_data *data);
 void	draw_player(t_data *data);
 void check_player_position(t_data *data);
 void	move_player(t_data *data, int move_x, int move_y);
+int	handle_key(int keycode, t_data *data);
+int	render(t_data *data);
 
 #endif
