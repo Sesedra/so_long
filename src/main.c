@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 13:23:21 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/16 12:39:24 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/19 16:06:34 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,6 @@ int	on_destroy(t_data *data)
 int	main(int argc, char *argv[])
 {
 	t_data	data;
-	int	x;
-	int	y;
-
 	if (argc == 1)
 		print_error("Carte introuvable");
 	else if (argc > 2)
@@ -37,10 +34,6 @@ int	main(int argc, char *argv[])
 	init(&data, argv[1]);
 	parse_map(&data.map);
 	load_map(&data.map);
-	x = data->player.position.pos_x;
-	y = data->player.position.pos_y;
-	if (!(validate_map(data->map.map, x, y, data->map.collectibles)))
-		print_error("Map error");
 	check_walls(&data.map);
 	check_map_elt(&data.map);
 	check_player_position(&data);
@@ -54,6 +47,9 @@ int	main(int argc, char *argv[])
 	init_map_sprites(&data);
 	draw_map(&data);
 	draw_player(&data);
+	if (!validate_map(&data))
+		print_error("Leo, ajanonu");
+	ft_printf("Exit found: %d \n", data.map.exit_accessibles);
 	mlx_hook(data.mlx_win, KeyPress, KeyPressMask, handle_key, &data);
 	mlx_hook(data.mlx_win, DestroyNotify, StructureNotifyMask, \
 	&on_destroy, &data);

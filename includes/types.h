@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:18:49 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/16 12:35:37 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/19 15:12:26 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ typedef struct s_map
 	int			fd;
 	char		**map;
 	int		collectibles;
+	int		collectibles_count;
 	int		exit;
 	int		start_count;
 	t_position	start;
 	int		moves;
-	bool	exit_found;
+	int		exit_accessibles;
 } 			t_map;
 
 typedef	struct	s_sprite

@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 14:46:35 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/16 12:38:34 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/19 16:06:43 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void check_map_elt(t_map *map)
 		}
 		j++;
 	}
-
+	map->collectibles_count = map->collectibles;
 	if (map->exit != 1)
 		print_error("Nombre de sortie incorrect");
 	if (map->start_count != 1)
@@ -271,7 +271,7 @@ void	move_player(t_data *data, int move_x, int move_y)
 
 	new_x = data->player.position.pos_x + move_x;
 	new_y = data->player.position.pos_y + move_y;
-
+	// check_victory(data);
 	if (data->map.map[new_y][new_x] == '1')
 		return;
 	else data->move++;
@@ -282,9 +282,9 @@ void	move_player(t_data *data, int move_x, int move_y)
 		ft_printf("You won \n");
 		exit(1);
 	}
-	else
+	else if (data->map.map[new_y][new_x] == 'E' && data->map.collectibles != 0)
 	{
-		ft_printf("Collect them all \n");
+		ft_printf("Collect them all, il reste %d / %d \n", data->map.collectibles, data->map.collectibles_count);
 	}
 	if (data->player.position.pos_x == data->map.start.pos_x && data->player.position.pos_y == data->map.start.pos_y)
 	{
@@ -345,33 +345,58 @@ int	handle_key(int keycode, t_data *data)
 		on_destroy(data);
 	return (0); 
 }
-
-void	flood_fill(char **map, int x, int y, int *collectibles, bool *exit_found)
+void check_path_on_copy(int x, int y, t_data *data, char **map_copy)
 {
-	if (x < 0 || y < 0 || map[y] == NULL || map[y][x] == '\0')
-		return;
-	if (map[y][x] == '1' || map[y][x] == 'V')
-		return;
-	if (map[y][x] == 'C')
-		(*collectibles)--;
-	if (map[y][x] == 'E')
-		*exit_found = true;
-	map[y][x] == 'V';
+    int map_w = data->map.map_width;
+    int map_h = data->map.map_height;
 
-	flood_fill(map, x + 1, y, collectibles, exit_found);
-	flood_fill(map, x - 1, y, collectibles, exit_found);
-	flood_fill(map, x , y + 1, collectibles, exit_found);
-	flood_fill(map, x , y - 1, collectibles, exit_found);
+    if (map_copy[y][x] == '1' || map_copy[y][x] == 'V' ||
+        x < 0 || y < 0 || x >= map_w || y >= map_h)
+        return;
+
+    if (map_copy[y][x] == 'E')
+    {
+        data->map.exit_accessibles = 1;
+        ft_printf("Accessible \n");
+        return;
+    }
+
+    if (map_copy[y][x] == 'C')
+        data->map.collectibles_count--;
+
+    map_copy[y][x] = 'V';
+
+    check_path_on_copy(x - 1, y, data, map_copy);
+    check_path_on_copy(x + 1, y, data, map_copy);
+    check_path_on_copy(x, y - 1, data, map_copy);
+    check_path_on_copy(x - 1, y + 1, data, map_copy);
 }
 
-bool	validate_map(char **map, int start_x, int start_y, int collectibles_count)
+bool	validate_map(t_data *data)
 {
-	bool	exit_found;
+	int i;
 	char	**map_copy;
-
-	exit_found = false;
-	map_copy = copy_map(map);
-	flood_fill(map_copy, start_x, start_y, collectibles_count, exit_found);
-	free_map(map_copy);
-	return (collectibles_count == 0 && exit_found);
+	map_copy = malloc(sizeof(char *) * data->map.map_height);
+	i = 0;
+	while (i < data->map.map_height)
+	{
+		map_copy[i] = malloc(sizeof(char) * (data->map.map_width + 1));
+		map_copy[i] = ft_strdup(data->map.map[i]);
+		i++;
+	}
+	check_path_on_copy(data->player.position.pos_x, data->player.position.pos_y, data, map_copy);
+	if (data->map.exit_accessibles && data->map.collectibles_count == 0)
+	{
+		ft_printf("Accessible \n");
+		return true;
+	}
+	else
+	{
+		ft_printf("Tsy accessible e, ,ajanony \n");
+		return false;
+	}
+	
+	
 }
+
+

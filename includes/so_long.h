@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 14:29:52 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/16 09:08:45 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/19 15:54:50 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ void	move_player(t_data *data, int move_x, int move_y);
 int	handle_key(int keycode, t_data *data);
 void free_map(char **map);
 char **copy_map(char **map);
-bool	validate_map(char **map, int start_x, int start_y, int collectibles_count);
+void check_path_on_copy(int x, int y, t_data *data, char **map_copy);
+bool	validate_map(t_data *data);
+
+char	*ft_strdup(const char *s);
 
 #endif

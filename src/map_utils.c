@@ -6,7 +6,7 @@
 /*   By: srabeman <srabeman@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:15:27 by srabeman          #+#    #+#             */
-/*   Updated: 2025/01/16 10:39:51 by srabeman         ###   ########.fr       */
+/*   Updated: 2025/01/19 15:49:00 by srabeman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	init(t_data *data, char *map_path)
 	data->map.map_height = 0;
 	data->map.map_width = 0;
 	data->move = 0;
+	data->map.exit_accessibles = 0;
 }
 
 int	line_count(char *str)
@@ -75,7 +76,7 @@ char **copy_map(char **map)
 
 void free_map(char **map)
 {
-	int i 
+	int i; 
 	
 	i = 0;
     while (map[i])
@@ -84,4 +85,22 @@ void free_map(char **map)
         i++;
     }
     free(map);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*res;
+	size_t	i;
+
+	res = (char *)malloc(ft_strlen(s) + 1);
+	i = 0;
+	if (!res)
+		return (NULL);
+	while (s[i])
+	{
+		res[i] = s[i];
+		i++;
+	}
+	res[i] = 0;
+	return (res);
 }
