@@ -51,3 +51,37 @@ int	line_count(char *str)
 		i++;
 	return (i);
 }
+
+char **copy_map(char **map)
+{
+	int i;
+	char **copy;
+
+	i = 0;
+	while (map[i])
+		i++;
+	copy = malloc((i + 1) * sizeof(char *));
+	if (!copy)
+		return NULL;
+	i = 0;
+	while (map[i])
+	{
+		copy[i] = strdup(map[i]);
+		i++;
+	}
+	copy[i] = NULL;
+	return copy;
+}
+
+void free_map(char **map)
+{
+	int i 
+	
+	i = 0;
+    while (map[i])
+    {
+        free(map[i]);
+        i++;
+    }
+    free(map);
+}

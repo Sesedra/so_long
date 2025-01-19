@@ -25,6 +25,8 @@ int	on_destroy(t_data *data)
 int	main(int argc, char *argv[])
 {
 	t_data	data;
+	int	x;
+	int	y;
 
 	if (argc == 1)
 		print_error("Carte introuvable");
@@ -35,6 +37,10 @@ int	main(int argc, char *argv[])
 	init(&data, argv[1]);
 	parse_map(&data.map);
 	load_map(&data.map);
+	x = data->player.position.pos_x;
+	y = data->player.position.pos_y;
+	if (!(validate_map(data->map.map, x, y, data->map.collectibles)))
+		print_error("Map error");
 	check_walls(&data.map);
 	check_map_elt(&data.map);
 	check_player_position(&data);

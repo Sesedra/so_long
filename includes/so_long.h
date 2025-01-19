@@ -19,6 +19,7 @@
 #include "../minilibx-linux/mlx_int.h"
 #include "../get_next_line/get_next_line.h"
 #include "../printf/ft_printf.h"
+#include <stdbool.h>
 #include "types.h"
 #define WIN_NAME "so_long"
 #define KEY_W 13
@@ -45,6 +46,8 @@ void	draw_player(t_data *data);
 void check_player_position(t_data *data);
 void	move_player(t_data *data, int move_x, int move_y);
 int	handle_key(int keycode, t_data *data);
-int	render(t_data *data);
+void free_map(char **map);
+char **copy_map(char **map);
+bool	validate_map(char **map, int start_x, int start_y, int collectibles_count);
 
 #endif

@@ -31,6 +31,7 @@ typedef struct s_map
 	int		start_count;
 	t_position	start;
 	int		moves;
+	bool	exit_found;
 } 			t_map;
 
 typedef	struct	s_sprite

@@ -345,3 +345,33 @@ int	handle_key(int keycode, t_data *data)
 		on_destroy(data);
 	return (0); 
 }
+
+void	flood_fill(char **map, int x, int y, int *collectibles, bool *exit_found)
+{
+	if (x < 0 || y < 0 || map[y] == NULL || map[y][x] == '\0')
+		return;
+	if (map[y][x] == '1' || map[y][x] == 'V')
+		return;
+	if (map[y][x] == 'C')
+		(*collectibles)--;
+	if (map[y][x] == 'E')
+		*exit_found = true;
+	map[y][x] == 'V';
+
+	flood_fill(map, x + 1, y, collectibles, exit_found);
+	flood_fill(map, x - 1, y, collectibles, exit_found);
+	flood_fill(map, x , y + 1, collectibles, exit_found);
+	flood_fill(map, x , y - 1, collectibles, exit_found);
+}
+
+bool	validate_map(char **map, int start_x, int start_y, int collectibles_count)
+{
+	bool	exit_found;
+	char	**map_copy;
+
+	exit_found = false;
+	map_copy = copy_map(map);
+	flood_fill(map_copy, start_x, start_y, collectibles_count, exit_found);
+	free_map(map_copy);
+	return (collectibles_count == 0 && exit_found);
+}
